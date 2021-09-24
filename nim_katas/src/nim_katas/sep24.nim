@@ -51,3 +51,45 @@ func primeNumbersStep*(step, initial, finish: int): seq[int] =
       previous = prime
 
     return @[0, 0]
+
+# [a,b,c,d] len: 4, until: 4 - 2 = 2
+# 0 1 - 0 a b
+# 1 2 - 1 b c
+# 2 3 - 2 c d
+# NOTE v1
+# func longestConsec*(s: seq[string], k: int): string =
+#   let sLen = s.len
+#   if k <= 0: return ""
+#   if k > sLen: return ""
+#   if sLen == 0: return ""
+
+#   var longestIndex = 0
+#   var longestCount = 0
+#   for i in 0..<(sLen - k):
+#     if i + k > sLen:
+#       break
+#     let currCount = s[i..<(i + k)].foldl(a + b.len, 0)
+#     if longestCount < currCount:
+#       longestCount = currCount
+#       longestIndex = i
+
+#   return s[longestIndex..<(longestIndex + k)].foldl(a & b)
+
+func longestConsec*(s: seq[string], k: int): string =
+  let sLen = s.len
+  if k <= 0: return ""
+  if k > sLen: return ""
+  if sLen == 0: return ""
+
+  var longestIndex = 0
+  var longestCount = 0
+  for i in 0..(sLen - k):
+    let currCount = s[i..<(i + k)].foldl(a + b.len, 0)
+    if longestCount < currCount:
+      longestCount = currCount
+      longestIndex = i
+
+  return s[longestIndex..<(longestIndex + k)].foldl(a & b)
+
+
+    
