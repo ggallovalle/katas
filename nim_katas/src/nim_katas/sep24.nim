@@ -40,6 +40,15 @@ iterator primes(initial, finish: int): int =
       yield it
 
 
+iterator primesInPairs(initial, finish: int): tuple[prev: int, curr:  int] =
+  var pair: seq[int] = @[]
+  for it in initial..finish:
+    if it.isPrime:
+      if pair.len == 2:
+        yield ( pair[0], pair[1] )
+        pair.setLen(0)
+      add(pair, it)
+
 func primeNumbersStep*(step, initial, finish: int): seq[int] =
     ## Find the first two prime number between `initial` and `finish` which have
     ## an `step` between the two.
@@ -103,3 +112,9 @@ func first_non_consecutive*(arr: seq[int]): Option[int] =
       return some(curr)
     prev = curr
   return none(int)  
+
+# proc gap*(g, m, n: int): seq[int] =
+#   for ( a, b ) in primesInPairs(m, n):
+#     if b - a == g:
+#       return @[a, b]
+#   return @[]

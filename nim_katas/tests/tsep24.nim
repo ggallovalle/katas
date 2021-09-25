@@ -67,3 +67,13 @@ suite "First Non-consecutive Number":
         check first_non_consecutive(@[-3,-2,0,1]) == some(0)
     test "Negative one":
         check first_non_consecutive(@[-5,-4,-3,-1]) == some(-1)
+
+
+# suite "gap":
+#   test "fixed tests":
+#     var empty: seq[int] = @[]
+#     check gap(2,100,110) == @[101, 103]
+#     check gap(4,100,110) == @[103, 107]
+#     check gap(6,100,110) == empty
+#     check gap(8,300,400) == @[359, 367]
+#     check gap(10,300,400) ==  @[337, 347]
