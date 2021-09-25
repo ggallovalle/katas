@@ -1,4 +1,4 @@
-import sequtils, strformat, strutils, options
+import sequtils, strformat, strutils, options, math, parseutils
 
 func hello_world*(): string = 
     ## Says `Hello World`
@@ -118,3 +118,11 @@ func first_non_consecutive*(arr: seq[int]): Option[int] =
 #     if b - a == g:
 #       return @[a, b]
 #   return @[]
+
+func toDigitsSeq(n: int): seq[int] =
+  return n.intToStr.toSeq.mapIt(parseInt($it))
+
+func narcissistic*(value: int): bool =
+  let splitted = value.toDigitsSeq
+  let summed = splitted.mapIt(it ^ splitted.len).sum
+  return summed == value

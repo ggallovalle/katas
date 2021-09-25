@@ -77,3 +77,9 @@ suite "First Non-consecutive Number":
 #     check gap(6,100,110) == empty
 #     check gap(8,300,400) == @[359, 367]
 #     check gap(10,300,400) ==  @[337, 347]
+
+suite "Narcissistic nubers":
+  test "153":
+    check narcissistic(153)
+  test "1652":
+    check not narcissistic(1652)
