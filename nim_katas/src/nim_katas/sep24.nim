@@ -1,4 +1,4 @@
-import sequtils, strformat
+import sequtils, strformat, strutils, options
 
 func hello_world*(): string = 
     ## Says `Hello World`
@@ -92,4 +92,14 @@ func longestConsec*(s: seq[string], k: int): string =
   return s[longestIndex..<(longestIndex + k)].foldl(a & b)
 
 
-    
+func findShort*(s: string): int =
+  return s.split(" ").foldl(if a < b.len: a else: b.len, 100)
+
+
+func first_non_consecutive*(arr: seq[int]): Option[int] =
+  var prev = arr[0]
+  for curr in arr[1..<arr.len]:
+    if prev != curr - 1:
+      return some(curr)
+    prev = curr
+  return none(int)  

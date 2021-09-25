@@ -1,4 +1,4 @@
-import unittest
+import unittest, options
 import nim_katas/sep24
 
 test "can say `Hello World`":
@@ -42,3 +42,28 @@ suite "longestConsec":
     testing(@["it","wkppv","ixoyx", "3452", "zzzzzzzzzzzz"], 0, "")
     testing(@["xxxzzxxtt", "iokkii", "ywwwiyvv", "qqqgkkwwwsssvv", "xxiiibb", "hhhqqlllwwwybbbcvv", "bbbuufhhfffe", "zzyyyzz", "kkkjjjuucctttff"], 7, 
         "ywwwiyvvqqqgkkwwwsssvvxxiiibbhhhqqlllwwwybbbcvvbbbuufhhfffezzyyyzzkkkjjjuucctttff")
+
+suite "Shortest Word":
+  test "Basic tests":
+    check(findShort("bitcoin take over the world maybe who knows perhaps") == 3)
+    check(findShort("turns out random test cases are easier than writing out basic ones") == 3)
+    check(findShort("lets talk about javascript the best language") == 3)
+    check(findShort("i want to travel the world writing code one day") == 1)
+    check(findShort("Lets all go on holiday somewhere very cold") == 2)
+    check(findShort("Let's travel abroad shall we") == 2)
+
+suite "First Non-consecutive Number":
+    test "Six":
+        check first_non_consecutive(@[1,2,3,4,6,7,8]) == some(6)
+    test "None":
+        check first_non_consecutive(@[1,2,3,4,5,6,7,8]) == none(int)
+    test "Six":
+        check first_non_consecutive(@[4,6,7,8,9,11]) == some(6)
+    test "Eleven":
+        check first_non_consecutive(@[4,5,6,7,8,9,11]) == some(11)
+    test "None":
+        check first_non_consecutive(@[31,32]) == none(int)
+    test "Zero":
+        check first_non_consecutive(@[-3,-2,0,1]) == some(0)
+    test "Negative one":
+        check first_non_consecutive(@[-5,-4,-3,-1]) == some(-1)
