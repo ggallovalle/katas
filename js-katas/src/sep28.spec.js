@@ -1,4 +1,4 @@
-const { sameStructureAs } = require("./sep28");
+const { sameStructureAs } = require("./sep28")
 
 // describe("sameStructureAs", () => {
 //   it("basic test", () => {
@@ -7,4 +7,4 @@ const { sameStructureAs } = require("./sep28");
 //   });
 // });
 
-test.todo("dice");
+test.todo("dice")
