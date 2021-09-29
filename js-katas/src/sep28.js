@@ -23,3 +23,23 @@ function sameStructureAs(first, second) {
 }
 
 exports.sameStructureAs = sameStructureAs;
+
+/**
+ * 
+ * @param {int[]} dice 
+ */
+function score( dice ) {
+    /**
+     * @param {Map} a
+     */
+    const counter = dice.reduce((a, b) => {
+        /** @var {Map<int, int>} a */
+        if(a.length == null) {
+            return {...a, [b]: 0}
+        } else {
+            return {...a, [b]: a[b] + 1}
+        }
+    }, new Map())
+}
+
+exports.score = score

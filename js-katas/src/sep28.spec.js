@@ -6,3 +6,5 @@ const { sameStructureAs } = require("./sep28");
 //     expect(sameStructureAs([ 1, [ 1, 1 ] ], [ [ 2, 2 ], 2 ])).toBe(false);
 //   });
 // });
+
+test.todo("dice");
