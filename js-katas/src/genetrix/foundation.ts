@@ -43,3 +43,21 @@ export function* count(start: number, stop?: number, step: number = 1) {
     )
   }
 }
+
+export function* takingAtATime<T>(
+  count: number,
+  source: Iterable<T>
+): Generator<T[]> {
+  let counter = 0
+  let accumulator: T[] = []
+  for (const x of source) {
+    counter++
+    accumulator.push(x)
+    if (counter == count) {
+      yield accumulator
+      counter = 0
+      accumulator = []
+    }
+  }
+  if (accumulator.length !== 0) yield accumulator
+}
