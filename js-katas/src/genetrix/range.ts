@@ -3,22 +3,22 @@ export class InfiniteLoopError extends Error {
 }
 
 /**
- * Starting from `0` until `stop`
+ * Starting from `0` until `stop` including it.
  * @param stop
  */
-export function count(stop: number): Generator<number>
+export function range(stop: number): Generator<number>
 /**
- * Starting from `start` until `stop` with step `step`
+ * Starting from `start` until `stop` including it, with step `step`.
  * @param start
  * @param stop
- * @param step The value of step parameter, defaults to 1
+ * @param step the value of step parameter, defaults to 1.
  */
-export function count(
+export function range(
   start: number,
   stop: number,
   step?: number
 ): Generator<number>
-export function* count(start: number, stop?: number, step: number = 1) {
+export function* range(start: number, stop?: number, step: number = 1) {
   if (stop == null) {
     stop = start
     start = 0
@@ -44,20 +44,7 @@ export function* count(start: number, stop?: number, step: number = 1) {
   }
 }
 
-export function* takingAtATime<T>(
-  count: number,
-  source: Iterable<T>
-): Generator<T[]> {
-  let counter = 0
-  let accumulator: T[] = []
-  for (const x of source) {
-    counter++
-    accumulator.push(x)
-    if (counter == count) {
-      yield accumulator
-      counter = 0
-      accumulator = []
-    }
-  }
-  if (accumulator.length !== 0) yield accumulator
-}
+
+// for (const x of takingAtATime(2, count(5))) {
+//   console.log(x)
+// }
