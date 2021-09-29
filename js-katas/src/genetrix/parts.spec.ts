@@ -1,5 +1,6 @@
-import { chunked, take } from "./parts"
+import { chunked, take, windowed } from "./parts"
 import { range } from "./range"
+import { len } from "./utils"
 
 describe("genetrix.parts", () => {
   describe("take", () => {
@@ -47,6 +48,32 @@ describe("genetrix.parts", () => {
       expect(() => {
         const res = [...chunked(0, sut)]
       }).toThrow(RangeError)
+    })
+  })
+
+  describe("windowed", () => {
+    test("`size=3` and `len=5` and default step", () => {
+      const source = range(1, 5)
+      const actual = [...windowed(3, source)]
+      expect(len(actual)).toBe(3)
+      expect(actual[0]).toEqual([1, 2, 3])
+      expect(actual[len(actual) - 1]).toEqual([3, 4, 5])
+    })
+
+    test("`opts.partialWindow=true`", () => {
+      const source = range(1, 5)
+      const actual = [...windowed(3, source, { partialWindow: true })]
+      expect(len(actual)).toBe(4)
+      expect(actual[0]).toEqual([1, 2, 3])
+      expect(actual[len(actual) - 1]).toEqual([4, 5])
+    })
+
+    test("`opts.step=3`", () => {
+      const source = range(1, 10)
+      const actual = [...windowed(5, source, { step: 3 })]
+      expect(len(actual)).toBe(2)
+      expect(actual[0]).toEqual([1, 2, 3, 4, 5])
+      expect(actual[1]).toEqual([4, 5, 6, 7, 8])
     })
   })
 })

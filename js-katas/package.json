@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "format": "prettier -w src"
+    "format": "prettier -w src",
+    "build": "tsc --build tsconfig.json",
+    "clean": "rm -rf build"
   },
   "keywords": [],
   "author": "",

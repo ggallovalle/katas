@@ -1,3 +1,11 @@
+import { range } from "./range"
+import { CapacityPorter, len } from "./utils"
+
+/**
+ * Take the first `n` elements out of iterable.
+ * @param n
+ * @param source
+ */
 export function* take<T>(n: number, source: Iterable<T>): Generator<T> {
   let counter = 0
   for (const x of source) {
@@ -28,4 +36,48 @@ export function* chunked<T>(size: number, source: Iterable<T>): Generator<T[]> {
     }
   }
   if (accumulator.length !== 0) yield accumulator
+
+  /**
+   * Returns an iterable of snapshots of the window of the given `size` sliding
+   * along the `source` with the given `opts.step`, where each snapshot is an array.
+   *
+   * @param size the number of elements to take in each window
+   * @param source
+   * @param {Object} opts - options
+   * @param {boolean} opts.partialWindow - controls wether or not to keep partial
+   */
+}
+
+/**
+ *
+ * Returns an iterable of snapshots of the window of the given `size` sliding
+ * along the `source` with the given `opts.step`, where each snapshot is an array.
+ *
+ * @param {number} size - the number of elements to take in each window.
+ * @param {Iterator<A>} source
+ * @param {Object} options
+ * @param {string} [options.partialWindow=false] - controls wether or not to keep partial window.
+ */
+export function* windowed<T>(
+  size: number,
+  source: Iterable<T>,
+  options: { step?: number; partialWindow?: boolean } = {
+    step: 1,
+    partialWindow: false,
+  }
+): Generator<T[]> {
+  let counter = 0
+  let accumulator: T[] = []
+  for (const x of source) {
+    counter++
+    accumulator.push(x)
+    if (counter === size) {
+      yield accumulator
+      counter = counter - (options?.step ?? 0)
+      accumulator = accumulator.slice(options.step)
+    }
+  }
+  if (options.partialWindow) {
+    yield accumulator
+  }
 }
