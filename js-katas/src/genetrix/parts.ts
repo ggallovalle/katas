@@ -1,10 +1,9 @@
-import { range } from "./range"
-import { CapacityPorter, len } from "./utils"
-
 /**
  * Take the first `n` elements out of iterable.
- * @param n
- * @param source
+ *
+ * @template T
+ * @param {number} n
+ * @param {Iterable<T>} source
  */
 export function* take<T>(n: number, source: Iterable<T>): Generator<T> {
   let counter = 0
@@ -19,8 +18,12 @@ export function* take<T>(n: number, source: Iterable<T>): Generator<T> {
 
 /**
  * Splits the `source` into an array of arrays, each not exiding the given `size`.
- * @param size the number of elements to take in each list.
- * @param source
+ *
+ * @template T
+ * @param {number} size - the number of elements to take in each list.
+ * @param {Iterable<A>} source
+ * @throws {RangeError} - when `size` <= 0
+ * @yields {T[]} - chunked array of arrays.
  */
 export function* chunked<T>(size: number, source: Iterable<T>): Generator<T[]> {
   if (size <= 0) throw new RangeError("`size` MUST be >= 0")
@@ -36,16 +39,6 @@ export function* chunked<T>(size: number, source: Iterable<T>): Generator<T[]> {
     }
   }
   if (accumulator.length !== 0) yield accumulator
-
-  /**
-   * Returns an iterable of snapshots of the window of the given `size` sliding
-   * along the `source` with the given `opts.step`, where each snapshot is an array.
-   *
-   * @param size the number of elements to take in each window
-   * @param source
-   * @param {Object} opts - options
-   * @param {boolean} opts.partialWindow - controls wether or not to keep partial
-   */
 }
 
 /**
@@ -53,10 +46,13 @@ export function* chunked<T>(size: number, source: Iterable<T>): Generator<T[]> {
  * Returns an iterable of snapshots of the window of the given `size` sliding
  * along the `source` with the given `opts.step`, where each snapshot is an array.
  *
+ * @template T
  * @param {number} size - the number of elements to take in each window.
  * @param {Iterator<A>} source
  * @param {Object} options
+ * @param {number} [options.step=1] - the number of elements to move the window forward by on each step.
  * @param {string} [options.partialWindow=false] - controls wether or not to keep partial window.
+ * @yields {T[]}
  */
 export function* windowed<T>(
   size: number,
@@ -73,11 +69,9 @@ export function* windowed<T>(
     accumulator.push(x)
     if (counter === size) {
       yield accumulator
-      counter = counter - (options?.step ?? 0)
+      counter = counter - (options.step ?? 0)
       accumulator = accumulator.slice(options.step)
     }
   }
-  if (options.partialWindow) {
-    yield accumulator
-  }
+  if (options.partialWindow) yield accumulator
 }
